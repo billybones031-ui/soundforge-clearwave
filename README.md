@@ -1,61 +1,61 @@
 # SOUNDFORGE + CLEARWAVE
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black)
+![DSP](https://img.shields.io/badge/DSP-Audio-purple?style=flat)
+![Status](https://img.shields.io/badge/Status-In%20Dev-orange?style=flat)
+
 > AI Audio Cleanup for Content Creators | Infinite Signal Labs | "We listen to machines."
->
-> [![ISL](https://img.shields.io/badge/Infinite_Signal_Labs-SOUNDFORGE-black?style=flat-square)](https://github.com/billybones031-ui)
-> [![Status](https://img.shields.io/badge/Status-In_Dev-orange?style=flat-square)]()
-> [![Pricing](https://img.shields.io/badge/Pricing-%249%2Fmo-blue?style=flat-square)]()
 >
 > ---
 >
 > ## What is SOUNDFORGE + CLEARWAVE?
-> 
-A one-click AI audio cleanup tool for content creators — podcasters, YouTubers, and streamers. **Not musicians.** 
-
-- **SOUNDFORGE** — audio processing engine
-- - **CLEARWAVE** — AI noise reduction and room correction layer
- 
-  - Technical baseline: RootlessJamesDSP (which Billy already uses).
- 
-  - ---
-
-  ## Features
-
-  - One-click noise reduction
-  - - Room correction / reverb removal
-    - - Level normalization
-      - - AI-powered, no technical audio knowledge needed
-       
-        - ---
-
-        ## Target Market
-
-        Podcasters · YouTubers · Streamers
-        **10M+ potential customers**
-        **Price: $9/month**
-
-        ---
-
-        ## Stack
-
-        | Component | Role |
-        |---|---|
-        | Python | DSP processing pipeline |
-        | RootlessJamesDSP | Technical audio baseline |
-        | Gemini API | AI audio analysis |
-        | Firebase | User accounts + processing queue |
-        | Android / Termux | Mobile dev environment |
-
-        ---
-
-        ## Status
-
-        - [ ] Audio processing pipeline MVP
-        - [ ] - [ ] Noise reduction module
-        - [ ] - [ ] Room correction module
-        - [ ] - [ ] Level normalization
-        - [ ] - [ ] Web or Android interface
-        - [ ] - [ ] $9/mo subscription integration
-       
-        - [ ] ---
-       
-        - [ ] *Infinite Signal Labs — Missoula, MT*
+>
+> SOUNDFORGE + CLEARWAVE is an AI-powered audio cleanup tool designed for content creators, podcasters, and streamers. One-click noise reduction, room correction, and normalization — professional audio quality without the learning curve.
+>
+> Built for creators who want clean audio fast, without expensive hardware or complex software.
+>
+> ---
+>
+> ## Features
+>
+> - One-click background noise removal
+> - - Room echo and reverb correction
+>   - - Level normalization and loudness targeting
+>     - - Batch processing for long-form content
+>       - - Mobile-first design for on-the-go creators
+>        
+>         - ---
+>
+> ## Target Market
+>
+> - YouTube content creators
+> - - Podcasters and streamers
+>   - - Online educators
+>     - - Remote meeting professionals
+>      
+>       - ---
+>
+> ## Stack
+>
+> | Component | Role |
+> |---|---|
+> | Python | DSP processing pipeline |
+> | Firebase | User accounts + processing queue |
+> | Gemini API | AI audio analysis |
+> | Android/Termux | Mobile dev environment |
+>
+> ---
+>
+> ## Status
+>
+> - [ ] Audio processing pipeline MVP
+> - [ ] - [ ] Noise reduction module
+> - [ ] - [ ] Room correction module
+> - [ ] - [ ] Level normalization
+> - [ ] - [ ] Web or Android interface
+> - [ ] - [ ] Freemium subscription tier integration
+>
+> - [ ] ---
+>
+> - [ ] *Infinite Signal Labs — Missoula, MT*
