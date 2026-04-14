@@ -116,7 +116,9 @@ fun ProcessScreen(vm: EngineViewModel, onBack: () -> Unit) {
                 SectionLabel("WAVEFORM")
                 WaveformDisplay(
                     original = state.selectedItem!!.waveformData,
-                    processed = state.processedItem?.waveformData
+                    // Only pass processed waveform if it actually has data; an empty
+                    // FloatArray(0) would show the legend with no visible line.
+                    processed = state.processedItem?.waveformData?.takeIf { it.isNotEmpty() }
                 )
             }
 

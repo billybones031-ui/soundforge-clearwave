@@ -21,6 +21,8 @@ import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -124,6 +126,16 @@ fun SettingsScreen(
                         visualTransformation = if (showApiKey) VisualTransformation.None
                                                else PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        trailingIcon = {
+                            IconButton(onClick = { showApiKey = !showApiKey }) {
+                                Icon(
+                                    imageVector = if (showApiKey) Icons.Default.VisibilityOff
+                                                  else Icons.Default.Visibility,
+                                    contentDescription = if (showApiKey) "Hide key" else "Show key",
+                                    tint = colors.textSecondary
+                                )
+                            }
+                        },
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor   = colors.cyan,
                             unfocusedBorderColor = colors.cyanDim,

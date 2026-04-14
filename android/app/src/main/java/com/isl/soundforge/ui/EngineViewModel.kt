@@ -212,7 +212,7 @@ class EngineViewModel(app: Application) : AndroidViewModel(app) {
             dynamicRangeDb = 42f,
             fileName = item.name
         )
-        val result = gemini.analyze(chars)
+        val result = gemini.analyze(chars, runtimeKey = _state.value.geminiApiKey)
         if (result != null) {
             _state.update { s -> s.copy(
                 geminiAnalysis = result,

@@ -52,11 +52,13 @@ class GeminiAudioAnalyzer {
      * Sends the measured audio characteristics to Gemini and returns
      * recommended processing settings.
      *
-     * Returns null if the API key isn't configured (graceful degradation —
+     * [runtimeKey] is the key entered by the user at runtime (from Settings).
+     * Falls back to the build-time key from local.properties if [runtimeKey]
+     * is blank. Returns null if neither is configured (graceful degradation —
      * the app still works without AI recommendations).
      */
-    suspend fun analyze(chars: AudioCharacteristics): AnalysisResult? {
-        val apiKey = BuildConfig.GEMINI_API_KEY
+    suspend fun analyze(chars: AudioCharacteristics, runtimeKey: String = ""): AnalysisResult? {
+        val apiKey = runtimeKey.ifBlank { BuildConfig.GEMINI_API_KEY }
         if (apiKey.isBlank()) return null
 
         return withContext(Dispatchers.IO) {
