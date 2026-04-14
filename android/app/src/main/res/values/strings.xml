@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SoundForge ClearWave</string>
+    <string name="app_tagline">AI Audio Cleanup for Creators</string>
+
+    <!-- Auth -->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_google">Continue with Google</string>
+    <string name="sign_up">Create Account</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="email_hint">Email address</string>
+    <string name="password_hint">Password</string>
+
+    <!-- Home -->
+    <string name="quick_record">Record</string>
+    <string name="import_file">Import File</string>
+    <string name="recent_files">Recent Files</string>
+    <string name="no_recent_files">No files yet. Record or import audio to get started.</string>
+
+    <!-- Process -->
+    <string name="enhance_audio">Enhance Audio</string>
+    <string name="noise_reduction">Noise Reduction</string>
+    <string name="room_correction">Room Correction</string>
+    <string name="normalization">Loudness Normalization</string>
+    <string name="processing_upload">Uploading…</string>
+    <string name="processing_analyze">Analyzing with AI…</string>
+    <string name="processing_clean">Cleaning audio…</string>
+    <string name="processing_download">Finalizing…</string>
+    <string name="processing_done">Done!</string>
+    <string name="play_original">Original</string>
+    <string name="play_enhanced">Enhanced</string>
+
+    <!-- Library -->
+    <string name="library">Library</string>
+    <string name="delete_file">Delete</string>
+    <string name="share_file">Share</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="processing_mode">Processing Mode</string>
+    <string name="processing_cloud">Cloud (Python backend)</string>
+    <string name="processing_device">On-Device (Android AudioFx)</string>
+    <string name="target_lufs">Target Loudness (LUFS)</string>
+    <string name="noise_threshold">Noise Threshold</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_processing">Audio Processing</string>
+    <string name="notification_processing_title">SoundForge ClearWave</string>
+    <string name="notification_processing_text">Processing your audio…</string>
+
+    <!-- Errors -->
+    <string name="error_permission_audio">Microphone permission required to record audio.</string>
+    <string name="error_no_file">No audio file selected.</string>
+    <string name="error_processing_failed">Processing failed. Check your connection and try again.</string>
+    <string name="error_sign_in_failed">Sign-in failed. Please try again.</string>
+</resources>

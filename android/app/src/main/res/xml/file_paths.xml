@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- App-private recording output -->
+    <files-path name="recordings" path="recordings/" />
+    <!-- Processed output in app cache -->
+    <cache-path name="processed" path="processed/" />
+    <!-- External app-specific directory (no permissions needed) -->
+    <external-files-path name="external_audio" path="Audio/" />
+</paths>
