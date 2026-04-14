@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import androidx.activity.result.contract.ActivityResultContracts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -42,18 +41,22 @@ class AudioFileManager(private val context: Context) {
      */
     suspend fun readMeta(uri: Uri): AudioMeta = withContext(Dispatchers.IO) {
         val retriever = MediaMetadataRetriever()
-        retriever.setDataSource(context, uri)
-
-        val name = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-            ?: uriToFileName(uri)
-        val durationMs = retriever.extractMetadata(
-            MediaMetadataRetriever.METADATA_KEY_DURATION
-        )?.toLongOrNull() ?: 0L
-        val mimeType = retriever.extractMetadata(
-            MediaMetadataRetriever.METADATA_KEY_MIMETYPE
-        ) ?: "audio/mpeg"
-
-        retriever.release()
+        val name: String
+        val durationMs: Long
+        val mimeType: String
+        try {
+            retriever.setDataSource(context, uri)
+            name = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
+                ?: uriToFileName(uri)
+            durationMs = retriever.extractMetadata(
+                MediaMetadataRetriever.METADATA_KEY_DURATION
+            )?.toLongOrNull() ?: 0L
+            mimeType = retriever.extractMetadata(
+                MediaMetadataRetriever.METADATA_KEY_MIMETYPE
+            ) ?: "audio/mpeg"
+        } finally {
+            retriever.release()
+        }
 
         val sizeBytes = context.contentResolver.openFileDescriptor(uri, "r")?.use {
             it.statSize
@@ -72,11 +75,9 @@ class AudioFileManager(private val context: Context) {
         val dir = File(context.filesDir, "recordings").also { it.mkdirs() }
         val ext = getExtension(uri) ?: "m4a"
         val dest = File(dir, "import_${System.currentTimeMillis()}.$ext")
-        context.contentResolver.openInputStream(uri)?.use { input ->
-            FileOutputStream(dest).use { output ->
-                input.copyTo(output)
-            }
-        }
+        val input = context.contentResolver.openInputStream(uri)
+            ?: error("Cannot open input stream for URI: $uri")
+        input.use { FileOutputStream(dest).use { output -> it.copyTo(output) } }
         dest
     }
 
@@ -139,8 +140,8 @@ class AudioFileManager(private val context: Context) {
     private fun generateWaveformThumbnail(uri: Uri): FloatArray {
         val bins = 256
         val result = FloatArray(bins)
+        val extractor = android.media.MediaExtractor()
         try {
-            val extractor = android.media.MediaExtractor()
             extractor.setDataSource(context, uri, null)
             val trackIndex = (0 until extractor.trackCount).firstOrNull { i ->
                 extractor.getTrackFormat(i).getString(android.media.MediaFormat.KEY_MIME)
@@ -149,11 +150,10 @@ class AudioFileManager(private val context: Context) {
             extractor.selectTrack(trackIndex)
 
             val format = extractor.getTrackFormat(trackIndex)
-            val sampleRate = format.getInteger(android.media.MediaFormat.KEY_SAMPLE_RATE)
             val durationUs = if (format.containsKey(android.media.MediaFormat.KEY_DURATION))
                 format.getLong(android.media.MediaFormat.KEY_DURATION) else return result
 
-            // Seek to evenly-spaced points and sample amplitude
+            // Seek to evenly-spaced points and sample raw amplitude
             for (bin in 0 until bins) {
                 val seekUs = (bin.toLong() * durationUs) / bins
                 extractor.seekTo(seekUs, android.media.MediaExtractor.SEEK_TO_CLOSEST_SYNC)
@@ -162,18 +162,18 @@ class AudioFileManager(private val context: Context) {
                 if (read > 0) {
                     buf.rewind()
                     var peak = 0f
-                    val shorts = read / 2
                     val sb = buf.asShortBuffer()
-                    repeat(shorts) {
+                    repeat(read / 2) {
                         val abs = Math.abs(sb.get() / 32768f)
                         if (abs > peak) peak = abs
                     }
                     result[bin] = peak
                 }
             }
-            extractor.release()
         } catch (_: Exception) {
-            // Non-fatal — caller renders a flat line if empty
+            // Non-fatal — caller renders a flat line if the array stays zero
+        } finally {
+            extractor.release()
         }
         return result
     }

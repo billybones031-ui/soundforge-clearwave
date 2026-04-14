@@ -29,8 +29,18 @@ class StorageManager {
         onProgress: (Float) -> Unit = {}
     ): String {
         val ref = storage.reference.child("users/$uid/raw/${file.name}")
+        // Infer MIME type from extension; fall back to generic audio so the
+        // Python backend can still process it regardless of container format.
+        val mimeType = when (file.extension.lowercase()) {
+            "mp3"  -> "audio/mpeg"
+            "m4a"  -> "audio/x-m4a"
+            "ogg"  -> "audio/ogg"
+            "flac" -> "audio/flac"
+            "wav"  -> "audio/wav"
+            else   -> "audio/aac"
+        }
         val meta = StorageMetadata.Builder()
-            .setContentType("audio/aac")
+            .setContentType(mimeType)
             .setCustomMetadata("originalName", file.name)
             .build()
 

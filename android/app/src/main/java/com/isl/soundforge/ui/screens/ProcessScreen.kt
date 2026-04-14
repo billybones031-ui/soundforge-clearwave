@@ -151,10 +151,12 @@ fun ProcessScreen(vm: EngineViewModel, onBack: () -> Unit) {
         val busy = state.processingState !is ProcessingState.Idle &&
                    state.processingState !is ProcessingState.Done &&
                    state.processingState !is ProcessingState.Error
+        val alreadyProcessed = state.selectedItem?.isProcessed == true
+        val canEnhance = state.selectedItem != null && !busy && !alreadyProcessed
 
         Button(
             onClick = vm::enhance,
-            enabled = state.selectedItem != null && !busy,
+            enabled = canEnhance,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
@@ -165,16 +167,26 @@ fun ProcessScreen(vm: EngineViewModel, onBack: () -> Unit) {
                 disabledContainerColor = colors.cyanDim
             )
         ) {
-            if (busy) {
-                CircularProgressIndicator(color = IslColors.Void, modifier = Modifier.size(20.dp))
-            } else {
-                Icon(Icons.Default.AutoFixHigh, null, tint = IslColors.Void)
-                Text(
-                    "  ENHANCE",
-                    color = IslColors.Void,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp
-                )
+            when {
+                busy -> CircularProgressIndicator(color = IslColors.Void, modifier = Modifier.size(20.dp))
+                alreadyProcessed -> {
+                    Icon(Icons.Default.CheckCircle, null, tint = IslColors.Void)
+                    Text(
+                        "  ALREADY ENHANCED",
+                        color = IslColors.Void,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    )
+                }
+                else -> {
+                    Icon(Icons.Default.AutoFixHigh, null, tint = IslColors.Void)
+                    Text(
+                        "  ENHANCE",
+                        color = IslColors.Void,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    )
+                }
             }
         }
 
