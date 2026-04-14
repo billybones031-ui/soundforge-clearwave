@@ -2,7 +2,6 @@ package com.isl.soundforge.ui.screens
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -11,6 +10,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,7 +49,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -204,9 +203,10 @@ private fun EmptyDropZone(onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
-            .border(1.dp, colors.cyanDim, RoundedCornerShape(8.dp))
             .clip(RoundedCornerShape(8.dp))
-            .background(colors.surface),
+            .background(colors.surface)
+            .border(1.dp, colors.cyanDim, RoundedCornerShape(8.dp))
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -217,10 +217,6 @@ private fun EmptyDropZone(onClick: () -> Unit) {
                 fontSize = 13.sp,
                 color = colors.textSecondary
             )
-        }
-        // Whole box is clickable but we use button for the hint
-        androidx.compose.foundation.clickable(onClick = onClick).run {
-            // no-op — handled by Box modifier through the column
         }
     }
 }

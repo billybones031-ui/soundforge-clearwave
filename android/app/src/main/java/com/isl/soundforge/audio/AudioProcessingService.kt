@@ -160,11 +160,13 @@ class AudioProcessingService : Service() {
     }
 
     private fun buildRecorder(file: File): MediaRecorder {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        // Split construction from configuration — otherwise .apply{} only
+        // attaches to the else branch and the recorder is never set up on API 31+.
+        val recorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
             MediaRecorder(this)
         else
             @Suppress("DEPRECATION") MediaRecorder()
-        .apply {
+        return recorder.apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
             setAudioEncoder(MediaRecorder.AudioEncoder.AAC)

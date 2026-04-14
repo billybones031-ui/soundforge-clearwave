@@ -14,6 +14,7 @@ import com.isl.soundforge.firebase.StorageManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -268,8 +269,9 @@ class EngineViewModel(app: Application) : AndroidViewModel(app) {
                 fileManager.copyToAppStorage(item.uri)
             } else error("No file URI")
 
-            // 2. Upload to Firebase Storage
-            val downloadUrl = storageManager.uploadRaw(localFile) { progress ->
+            // 2. Upload to Firebase Storage — backend accesses the file by storage path,
+            //    not download URL, so we don't need the return value here.
+            storageManager.uploadRaw(localFile) { progress ->
                 _state.update { it.copy(processingState = ProcessingState.Uploading(progress)) }
             }
 
@@ -284,37 +286,37 @@ class EngineViewModel(app: Application) : AndroidViewModel(app) {
                 noiseThreshold = opts.noiseThreshold
             ))
 
-            // 4. Poll Firestore for completion
+            // 4. Wait for the backend to finish — first() suspends until a terminal state arrives
+            //    then automatically cancels the Firestore listener.
             _state.update { it.copy(processingState = ProcessingState.Processing(0f, "Backend processing…")) }
-            queueManager.watchJob(jobId).collect { job ->
-                when (job?.status) {
-                    "done" -> {
-                        _state.update { it.copy(processingState = ProcessingState.Downloading) }
-                        val outFile = java.io.File(context.cacheDir, "processed/${job.outputFileName}")
-                        outFile.parentFile?.mkdirs()
-                        storageManager.downloadProcessed(job.outputFileName, outFile) { p ->
-                            _state.update { it.copy(processingState = ProcessingState.Downloading) }
-                        }
-                        val outputItem = AudioItem(
-                            id = jobId,
-                            name = "Enhanced_${item.name}",
-                            uri = Uri.fromFile(outFile),
-                            durationMs = item.durationMs,
-                            isProcessed = true
+            val finalJob = queueManager.watchJob(jobId)
+                .first { it?.status == "done" || it?.status == "error" }
+
+            when (finalJob?.status) {
+                "done" -> {
+                    _state.update { it.copy(processingState = ProcessingState.Downloading) }
+                    val outFile = java.io.File(context.cacheDir, "processed/${finalJob.outputFileName}")
+                    outFile.parentFile?.mkdirs()
+                    storageManager.downloadProcessed(finalJob.outputFileName, outFile)
+                    val outputItem = AudioItem(
+                        id = jobId,
+                        name = "Enhanced_${item.name}",
+                        uri = Uri.fromFile(outFile),
+                        durationMs = item.durationMs,
+                        isProcessed = true
+                    )
+                    _state.update { it.copy(
+                        processingState = ProcessingState.Done(outputItem),
+                        processedItem = outputItem,
+                        libraryItems = it.libraryItems + outputItem
+                    ) }
+                }
+                "error" -> {
+                    _state.update { it.copy(
+                        processingState = ProcessingState.Error(
+                            finalJob.errorMessage.ifEmpty { "Backend error" }
                         )
-                        _state.update { it.copy(
-                            processingState = ProcessingState.Done(outputItem),
-                            processedItem = outputItem,
-                            libraryItems = it.libraryItems + outputItem
-                        ) }
-                        return@collect  // stop collecting
-                    }
-                    "error" -> {
-                        _state.update { it.copy(
-                            processingState = ProcessingState.Error(job.errorMessage.ifEmpty { "Backend error" })
-                        ) }
-                        return@collect
-                    }
+                    ) }
                 }
             }
         }.onFailure { e ->

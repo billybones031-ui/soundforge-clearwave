@@ -1,20 +1,11 @@
 package com.isl.soundforge.audio
 
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.AudioFormat
-import android.media.AudioRecord
-import android.media.AudioTrack
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
 import android.media.MediaMuxer
-import android.media.audiofx.AcousticEchoCanceler
-import android.media.audiofx.AutomaticGainControl
-import android.media.audiofx.DynamicsProcessing
-import android.media.audiofx.NoiseSuppressor
 import android.net.Uri
-import android.os.Build
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -375,6 +366,7 @@ class AudioProcessor(private val context: Context) {
     }
 
     private fun rmsOf(pcm: FloatArray, start: Int, length: Int): Float {
+        if (length == 0) return 0f
         var sum = 0.0
         for (i in start until start + length) {
             val s = pcm[i].toDouble()
@@ -390,6 +382,7 @@ class AudioProcessor(private val context: Context) {
             frameRms.add(rmsOf(pcm, i, frameSize))
             i += frameSize
         }
+        if (frameRms.isEmpty()) return 0f  // file shorter than one frame
         frameRms.sort()
         // Use the 10th percentile frame as the noise floor estimate
         return frameRms[maxOf(0, frameRms.size / 10)]
