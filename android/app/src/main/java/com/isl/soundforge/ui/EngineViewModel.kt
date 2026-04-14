@@ -294,10 +294,13 @@ class EngineViewModel(app: Application) : AndroidViewModel(app) {
 
             when (finalJob?.status) {
                 "done" -> {
+                    val outName = finalJob.outputFileName.ifEmpty {
+                        error("Backend marked job done but provided no outputFileName")
+                    }
                     _state.update { it.copy(processingState = ProcessingState.Downloading) }
-                    val outFile = java.io.File(context.cacheDir, "processed/${finalJob.outputFileName}")
+                    val outFile = java.io.File(context.cacheDir, "processed/$outName")
                     outFile.parentFile?.mkdirs()
-                    storageManager.downloadProcessed(finalJob.outputFileName, outFile)
+                    storageManager.downloadProcessed(outName, outFile)
                     val outputItem = AudioItem(
                         id = jobId,
                         name = "Enhanced_${item.name}",

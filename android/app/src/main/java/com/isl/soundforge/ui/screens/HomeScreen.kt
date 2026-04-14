@@ -1,7 +1,11 @@
 package com.isl.soundforge.ui.screens
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -59,6 +63,7 @@ fun HomeScreen(
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     val colors = SoundForgeTheme.colors
+    val context = LocalContext.current
 
     val filePicker = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
@@ -67,6 +72,15 @@ fun HomeScreen(
             vm.onFilePicked(uri)
             onNavigate(Screen.PROCESS)
         }
+    }
+
+    // Request RECORD_AUDIO at runtime; navigate to ProcessScreen only on grant.
+    val micPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) onNavigate(Screen.PROCESS)
+        // If denied the user stays on HomeScreen; Android will show a denial rationale
+        // on repeated requests via the system dialog automatically.
     }
 
     LaunchedEffect(Unit) {
@@ -127,8 +141,11 @@ fun HomeScreen(
                 accentColor = colors.magenta,
                 modifier = Modifier.weight(1f),
                 onClick = {
-                    // TODO: request RECORD_AUDIO permission before navigating
-                    onNavigate(Screen.PROCESS)
+                    val granted = ContextCompat.checkSelfPermission(
+                        context, Manifest.permission.RECORD_AUDIO
+                    ) == PackageManager.PERMISSION_GRANTED
+                    if (granted) onNavigate(Screen.PROCESS)
+                    else micPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
                 }
             )
             ActionCard(

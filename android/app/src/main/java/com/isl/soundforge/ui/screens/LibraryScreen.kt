@@ -28,12 +28,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import android.content.Intent
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.FileProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
@@ -57,6 +60,7 @@ fun LibraryScreen(
 ) {
     val state by vm.state.collectAsStateWithLifecycle()
     val colors = SoundForgeTheme.colors
+    val context = LocalContext.current
     var pendingDelete by remember { mutableStateOf<AudioItem?>(null) }
 
     LaunchedEffect(Unit) { vm.loadLibrary() }
@@ -127,7 +131,24 @@ fun LibraryScreen(
                         item = item,
                         onClick = { onOpenFile(item) },
                         onDelete = { pendingDelete = item },
-                        onShare = { /* TODO: share intent */ }
+                        onShare = {
+                            val uri = item.uri ?: return@LibraryRow
+                            val file = java.io.File(uri.path ?: return@LibraryRow)
+                            val shareUri = FileProvider.getUriForFile(
+                                context,
+                                "${context.packageName}.fileprovider",
+                                file
+                            )
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "audio/*"
+                                putExtra(Intent.EXTRA_STREAM, shareUri)
+                                putExtra(Intent.EXTRA_SUBJECT, item.name)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+                            context.startActivity(
+                                Intent.createChooser(intent, "Share ${item.name}")
+                            )
+                        }
                     )
                 }
             }

@@ -53,40 +53,42 @@ class AudioProcessor(private val context: Context) {
         val outputFile = File(outputDir, "processed_${System.currentTimeMillis()}.aac")
 
         val extractor = MediaExtractor()
-        extractor.setDataSource(context, inputUri, null)
+        try {
+            extractor.setDataSource(context, inputUri, null)
 
-        val audioTrackIndex = findAudioTrack(extractor)
-        val inputFormat = extractor.getTrackFormat(audioTrackIndex)
-        extractor.selectTrack(audioTrackIndex)
+            val audioTrackIndex = findAudioTrack(extractor)
+            val inputFormat = extractor.getTrackFormat(audioTrackIndex)
+            extractor.selectTrack(audioTrackIndex)
 
-        val sampleRate = inputFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
-        val channelCount = inputFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
-        val durationUs = if (inputFormat.containsKey(MediaFormat.KEY_DURATION))
-            inputFormat.getLong(MediaFormat.KEY_DURATION) else 0L
+            val sampleRate = inputFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
+            val channelCount = inputFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
+            val durationUs = if (inputFormat.containsKey(MediaFormat.KEY_DURATION))
+                inputFormat.getLong(MediaFormat.KEY_DURATION) else 0L
 
-        // Decode → process PCM → encode
-        val pcm = decodeToPcm(extractor, inputFormat, audioTrackIndex, onProgress)
-        onProgress(0.5f)
+            // Decode → process PCM → encode
+            val pcm = decodeToPcm(extractor, inputFormat, audioTrackIndex, onProgress)
+            onProgress(0.5f)
 
-        val processed = applyDsp(pcm, sampleRate, channelCount, options)
-        onProgress(0.8f)
+            val processed = applyDsp(pcm, sampleRate, channelCount, options)
+            onProgress(0.8f)
 
-        val inputPeak = measurePeakDb(pcm)
-        val outputPeak = measurePeakDb(processed)
-        val noiseFloor = estimateNoiseFloorDb(pcm)
+            val inputPeak = measurePeakDb(pcm)
+            val outputPeak = measurePeakDb(processed)
+            val noiseFloor = estimateNoiseFloorDb(pcm)
 
-        encodePcmToAac(processed, sampleRate, channelCount, outputFile)
-        onProgress(1.0f)
+            encodePcmToAac(processed, sampleRate, channelCount, outputFile)
+            onProgress(1.0f)
 
-        extractor.release()
-
-        ProcessingResult(
-            outputFile = outputFile,
-            inputPeakDb = inputPeak,
-            outputPeakDb = outputPeak,
-            noiseFloorDb = noiseFloor,
-            durationMs = durationUs / 1000
-        )
+            ProcessingResult(
+                outputFile = outputFile,
+                inputPeakDb = inputPeak,
+                outputPeakDb = outputPeak,
+                noiseFloorDb = noiseFloor,
+                durationMs = durationUs / 1000
+            )
+        } finally {
+            extractor.release()
+        }
     }
 
     // -------------------------------------------------------------------------
