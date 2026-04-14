@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.isl.soundforge.DspMathTest" tests="23" skipped="0" failures="0" errors="0" timestamp="2026-04-14T17:07:42.379Z" hostname="runsc" time="0.19">
+  <properties/>
+  <testcase name="normalizeLoudness can attenuate loud signals()" classname="com.isl.soundforge.DspMathTest" time="0.045"/>
+  <testcase name="estimateNoiseFloorDb silence returns -120()" classname="com.isl.soundforge.DspMathTest" time="0.028"/>
+  <testcase name="measurePeakDb half scale returns -6 dBFS()" classname="com.isl.soundforge.DspMathTest" time="0.003"/>
+  <testcase name="rmsOf sub-range honours start and length()" classname="com.isl.soundforge.DspMathTest" time="0.003"/>
+  <testcase name="normalizeLoudness does not change silence()" classname="com.isl.soundforge.DspMathTest" time="0.004"/>
+  <testcase name="rmsOf single sample()" classname="com.isl.soundforge.DspMathTest" time="0.0"/>
+  <testcase name="applySpectralNoiseSuppression short array no crash()" classname="com.isl.soundforge.DspMathTest" time="0.005"/>
+  <testcase name="estimateNoiseFloorDb returns negative dB for real audio()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="rmsOf empty length returns zero()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="rmsOf constant signal equals that value()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="applyRoomCorrection removes DC offset()" classname="com.isl.soundforge.DspMathTest" time="0.015"/>
+  <testcase name="applySpectralNoiseSuppression leaves silence array intact()" classname="com.isl.soundforge.DspMathTest" time="0.003"/>
+  <testcase name="measurePeakDb full scale returns 0 dBFS()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="estimateNoiseFloor returns zero for empty array()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="measurePeakDb picks absolute maximum()" classname="com.isl.soundforge.DspMathTest" time="0.002"/>
+  <testcase name="measurePeakDb silence returns -120 dBFS()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <testcase name="rmsOf full-scale sine is 1 over root 2()" classname="com.isl.soundforge.DspMathTest" time="0.003"/>
+  <testcase name="estimateNoiseFloor returns zero for array shorter than one frame()" classname="com.isl.soundforge.DspMathTest" time="0.002"/>
+  <testcase name="applySpectralNoiseSuppression attenuates noise-floor frames()" classname="com.isl.soundforge.DspMathTest" time="0.011"/>
+  <testcase name="normalizeLoudness scales signal to target LUFS()" classname="com.isl.soundforge.DspMathTest" time="0.006"/>
+  <testcase name="estimateNoiseFloor picks low-energy region()" classname="com.isl.soundforge.DspMathTest" time="0.002"/>
+  <testcase name="applyRoomCorrection passes high frequency signal()" classname="com.isl.soundforge.DspMathTest" time="0.005"/>
+  <testcase name="estimateNoiseFloor uniform signal returns that rms()" classname="com.isl.soundforge.DspMathTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

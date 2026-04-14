@@ -204,13 +204,14 @@ class AudioProcessor(private val context: Context) {
      * [threshold] × noiseFloor.
      *
      * Not as good as RNNoise, but zero-dependency and runs in real time.
+     * Frame size is ~10 ms derived from [sampleRate], clamped to [128, 1024].
      */
     private fun applySpectralNoiseSuppression(
         pcm: FloatArray,
         sampleRate: Int,
         threshold: Float
     ) {
-        val frameSize = 512
+        val frameSize = (sampleRate / 100).coerceIn(128, 1024)
         val noiseFloor = estimateNoiseFloor(pcm, frameSize)
         val gateThreshold = noiseFloor * (1f + threshold * 4f)
 
