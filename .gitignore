@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+**/build/
+**/.gradle/
+
+# Android
+*.apk
+*.aab
+local.properties
+android/.idea/
+
+# Kotlin / Java
+*.class
+*.jar
+
+# IDE
+.idea/
+*.iml
+*.iws
+.DS_Store
