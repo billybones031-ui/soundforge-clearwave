@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- ISL cyberpunk palette -->
+<resources>
+    <!-- Backgrounds -->
+    <color name="bg_void">#FF06060C</color>
+    <color name="bg_surface">#FF0D0D1A</color>
+    <color name="bg_surface_elevated">#FF141428</color>
+    <color name="bg_card">#CC0D0D1A</color>
+
+    <!-- Brand -->
+    <color name="cyan">#FF00F0FF</color>
+    <color name="magenta">#FFFF00AA</color>
+    <color name="cyan_dim">#8000F0FF</color>
+    <color name="magenta_dim">#80FF00AA</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFE0E0FF</color>
+    <color name="text_secondary">#99B0B0CC</color>
+    <color name="text_disabled">#4DE0E0FF</color>
+
+    <!-- Semantic -->
+    <color name="success">#FF00FF88</color>
+    <color name="warning">#FFFFCC00</color>
+    <color name="error">#FFFF3355</color>
+
+    <!-- Waveform / spectrum -->
+    <color name="waveform_original">#CC00F0FF</color>
+    <color name="waveform_processed">#CCFF00AA</color>
+    <color name="grid_line">#1AFFFFFF</color>
+</resources>

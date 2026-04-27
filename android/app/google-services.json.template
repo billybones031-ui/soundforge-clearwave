@@ -1,0 +1,42 @@
+{
+  "_INSTRUCTIONS": [
+    "1. Go to https://console.firebase.google.com",
+    "2. Create a project named 'soundforge-clearwave' (or use existing)",
+    "3. Add an Android app with package name: com.isl.soundforge",
+    "4. Download google-services.json and place it at: android/app/google-services.json",
+    "5. In Firebase Console, enable: Authentication (Email/Password + Google), Firestore, Storage",
+    "6. Copy your Web Client ID into AuthManager.kt WEB_CLIENT_ID constant"
+  ],
+  "project_info": {
+    "project_number": "YOUR_PROJECT_NUMBER",
+    "project_id": "soundforge-clearwave",
+    "storage_bucket": "soundforge-clearwave.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:YOUR_PROJECT_NUMBER:android:YOUR_APP_ID",
+        "android_client_info": {
+          "package_name": "com.isl.soundforge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "YOUR_WEB_CLIENT_ID.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "YOUR_ANDROID_API_KEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+# Copy this file to local.properties and fill in your paths.
+# DO NOT commit local.properties to git (it's in .gitignore).
+
+# Path to your Android SDK installation
+sdk.dir=/path/to/your/Android/Sdk
+# Examples:
+#   Mac:     sdk.dir=/Users/username/Library/Android/sdk
+#   Linux:   sdk.dir=/home/username/Android/Sdk
+#   Windows: sdk.dir=C\:\\Users\\username\\AppData\\Local\\Android\\Sdk
+
+# Gemini API key — get one at https://aistudio.google.com
+# GEMINI_API_KEY=your_api_key_here

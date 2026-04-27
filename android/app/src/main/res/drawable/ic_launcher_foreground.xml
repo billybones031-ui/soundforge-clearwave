@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SoundForge ClearWave app icon — cyan soundwave bars -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Waveform bars — 5 bars of varying height, cyan -->
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M28,54 L28,54 Q28,44 33,44 L35,44 Q40,44 40,54 L40,54 Q40,64 35,64 L33,64 Q28,64 28,54Z" />
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M43,54 L43,54 Q43,36 48,36 L50,36 Q55,36 55,54 L55,54 Q55,72 50,72 L48,72 Q43,72 43,54Z" />
+    <path
+        android:fillColor="#FF00AA"
+        android:pathData="M58,54 L58,54 Q58,30 63,30 L65,30 Q70,30 70,54 L70,54 Q70,78 65,78 L63,78 Q58,78 58,54Z" />
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M73,54 L73,54 Q73,36 78,36 L80,36 Q85,36 85,54 L85,54 Q85,72 80,72 L78,72 Q73,72 73,54Z" />
+    <path
+        android:fillColor="#00F0FF"
+        android:pathData="M88,54 L88,54 Q88,44 93,44 L95,44 Q100,44 100,54 L100,54 Q100,64 95,64 L93,64 Q88,64 88,54Z" />
+
+</vector>
