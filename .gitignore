@@ -10,6 +10,12 @@ build/
 local.properties
 android/.idea/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
 # Kotlin / Java
 *.class
 *.jar
