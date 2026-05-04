@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="30">
+<title>SoundForge ClearWave — Progress</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --red: #f85149;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+    --orange: #ffa657;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 24px;
+  }
+  h1 { font-size: 22px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  h2 { font-size: 13px; font-weight: 600; text-transform: uppercase;
+       letter-spacing: .08em; color: var(--muted); margin: 24px 0 10px; }
+  .header-meta { color: var(--muted); font-size: 12px; margin-bottom: 24px; }
+  .header-meta span { color: var(--text); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 8px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  .card-title { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+  .stat { font-size: 28px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: var(--muted); }
+  .green { color: var(--green); } .yellow { color: var(--yellow); } .blue { color: var(--blue); }
+  .checklist { list-style: none; }
+  .checklist li { padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; display: flex; align-items: flex-start; gap: 8px; }
+  .checklist li:last-child { border-bottom: none; }
+  .check { flex-shrink: 0; margin-top: 2px; }
+  .done .check::before { content: "✓"; color: var(--green); font-weight: 700; }
+  .pend .check::before { content: "○"; color: var(--yellow); }
+  .na   .check::before { content: "—"; color: var(--muted); }
+  .label { flex: 1; }
+  .done .label { color: var(--text); } .pend .label { color: var(--yellow); } .na .label { color: var(--muted); }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 10px; margin-left: 4px; }
+  .badge-green  { background: rgba(63,185,80,.15);  color: var(--green); }
+  .badge-yellow { background: rgba(210,153,34,.15); color: var(--yellow); }
+  .badge-blue   { background: rgba(88,166,255,.15); color: var(--blue); }
+  .bar-wrap { background: var(--border); border-radius: 4px; height: 6px; margin-top: 8px; }
+  .bar { height: 6px; border-radius: 4px; background: var(--green); }
+  .commits { font-family: monospace; font-size: 12px; }
+  .commits .row { padding: 4px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .commits .row:last-child { border-bottom: none; }
+  .commits .sha { color: var(--blue); margin-right: 8px; }
+  .refresh-note { color: var(--muted); font-size: 11px; margin-top: 24px; text-align: right; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<h1>SoundForge ClearWave</h1>
+<div class="header-meta">
+  Infinite Signal Labs &nbsp;·&nbsp;
+  Branch: <span>claude/build-android-app-Dj7qv</span> &nbsp;·&nbsp;
+  Last commit: <span>just now</span> &nbsp;·&nbsp;
+  <span style="color:var(--green)">0 unpushed</span>
+</div>
+<div class="grid">
+  <div class="card"><div class="card-title">Android</div><div class="stat green">16</div><div class="stat-label">Kotlin files · 3575 lines</div><div class="bar-wrap"><div class="bar" style="width:100%"></div></div></div>
+  <div class="card"><div class="card-title">Python Backend</div><div class="stat green">5</div><div class="stat-label">Python files · 864 lines</div><div class="bar-wrap"><div class="bar" style="width:100%"></div></div></div>
+  <div class="card"><div class="card-title">Tests</div><div class="stat green">52</div><div class="stat-label">passing &nbsp;<span class="badge badge-green">23 JVM</span> <span class="badge badge-blue">29 Python</span></div><div class="bar-wrap"><div class="bar" style="width:100%"></div></div></div>
+  <div class="card"><div class="card-title">Commits</div><div class="stat blue">14</div><div class="stat-label">total on branch</div></div>
+</div>
+<h2>Layer Status</h2>
+<div class="grid">
+  <div class="card">
+    <div class="card-title">Android App</div>
+    <ul class="checklist">
+      <li class="done"><span class="check"></span><span class="label">5 Compose screens (Auth, Home, Process, Library, Settings)</span></li>
+      <li class="done"><span class="check"></span><span class="label">EngineViewModel + AppState</span></li>
+      <li class="done"><span class="check"></span><span class="label">On-device DSP (AudioProcessor.kt)</span></li>
+      <li class="done"><span class="check"></span><span class="label">Foreground recording service</span></li>
+      <li class="done"><span class="check"></span><span class="label">Gemini AI integration (1.5 Flash)</span></li>
+      <li class="done"><span class="check"></span><span class="label">Firebase Auth (email + Google)</span></li>
+      <li class="done"><span class="check"></span><span class="label">Firebase Storage manager</span></li>
+      <li class="done"><span class="check"></span><span class="label">Firestore queue manager</span></li>
+      <li class="done"><span class="check"></span><span class="label">Manifest, icons, themes, strings</span></li>
+      <li class="done"><span class="check"></span><span class="label">Build config (BOM pins, BuildConfig secrets)</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Cloud Backend</div>
+    <ul class="checklist">
+      <li class="done"><span class="check"></span><span class="label">audio_processor.py — DSP pipeline</span></li>
+      <li class="done"><span class="check"></span><span class="label">firebase_client.py — Firestore + Storage</span></li>
+      <li class="done"><span class="check"></span><span class="label">main.py — Cloud Run worker</span></li>
+      <li class="done"><span class="check"></span><span class="label">Dockerfile + .dockerignore</span></li>
+      <li class="done"><span class="check"></span><span class="label">deploy.sh — Cloud Run deploy script</span></li>
+      <li class="done"><span class="check"></span><span class="label">requirements.txt (all pinned)</span></li>
+      <li class="done"><span class="check"></span><span class="label">29 pytest tests passing</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Pending (Manual Steps)</div>
+    <ul class="checklist">
+      <li class="pend"><span class="check"></span><span class="label">Create Firebase project <span class="badge badge-yellow">you</span></span></li>
+      <li class="pend"><span class="check"></span><span class="label">Download google-services.json <span class="badge badge-yellow">you</span></span></li>
+      <li class="pend"><span class="check"></span><span class="label">Set WEB_CLIENT_ID in AuthManager.kt <span class="badge badge-yellow">you</span></span></li>
+      <li class="pend"><span class="check"></span><span class="label">Add GEMINI_API_KEY to local.properties <span class="badge badge-yellow">optional</span></span></li>
+      <li class="pend"><span class="check"></span><span class="label">gcloud run deploy (backend) <span class="badge badge-yellow">you</span></span></li>
+      <li class="pend"><span class="check"></span><span class="label">Play Store listing</span></li>
+      <li class="na"><span class="check"></span><span class="label">Push notifications</span></li>
+      <li class="na"><span class="check"></span><span class="label">Waveform renderer</span></li>
+      <li class="na"><span class="check"></span><span class="label">Billing / paywall</span></li>
+    </ul>
+  </div>
+  <div class="card">
+    <div class="card-title">Docs &amp; Tooling</div>
+    <ul class="checklist">
+      <li class="done"><span class="check"></span><span class="label">README.md</span></li>
+      <li class="done"><span class="check"></span><span class="label">HANDOFF.md (complete handoff doc)</span></li>
+      <li class="done"><span class="check"></span><span class="label">google-services.json.template</span></li>
+      <li class="done"><span class="check"></span><span class="label">local.properties.template</span></li>
+      <li class="done"><span class="check"></span><span class="label">23 JVM DSP unit tests</span></li>
+      <li class="done"><span class="check"></span><span class="label">.gitignore</span></li>
+      <li class="done"><span class="check"></span><span class="label">This dashboard</span></li>
+    </ul>
+  </div>
+</div>
+<h2>Overall Completion</h2>
+<div class="card">
+  <div style="display:flex; justify-content:space-between; margin-bottom:6px;"><span>Code complete</span><span class="green" style="font-weight:700">100%</span></div>
+  <div class="bar-wrap"><div class="bar" style="width:100%"></div></div>
+  <div style="display:flex; justify-content:space-between; margin-top:12px; margin-bottom:6px;"><span>Firebase / deploy configured</span><span class="yellow" style="font-weight:700">0% <span style="font-size:11px; color:var(--muted)">(manual steps)</span></span></div>
+  <div class="bar-wrap"><div class="bar" style="width:0%; background:var(--yellow)"></div></div>
+</div>
+<h2>Recent Commits</h2>
+<div class="card commits">
+  <div class="row"><span class="sha">530675d</span>Add self-updating progress dashboard</div>
+  <div class="row"><span class="sha">5e9150e</span>Build Python cloud audio processing backend</div>
+  <div class="row"><span class="sha">b4ecfc5</span>Add complete app handoff document</div>
+  <div class="row"><span class="sha">51171ec</span>Fix 4 bugs found in status-report pass</div>
+  <div class="row"><span class="sha">ad3e36b</span>Fix 3 bugs found in verification pass</div>
+  <div class="row"><span class="sha">fd24548</span>Add .gitignore; remove committed build artifacts from tests/</div>
+  <div class="row"><span class="sha">b19a7d0</span>Add JVM test suite; derive noise-gate frame size from sample rate</div>
+  <div class="row"><span class="sha">462cd4e</span>Fix resource leaks, silent failures, and UX gap</div>
+</div>
+<h2>Last Commit</h2>
+<div class="card">
+  <div style="font-family:monospace; font-size:13px;">530675d Add self-updating progress dashboard</div>
+  <div style="color:var(--muted); font-size:12px; margin-top:4px;">just now</div>
+</div>
+<div class="refresh-note">
+  Auto-refreshes every 30 s &nbsp;·&nbsp; Generated 2026-05-04 10:26:25 &nbsp;·&nbsp;
+  <a href="#" onclick="location.reload()">Reload now</a>
+</div>
+</body>
+</html>
